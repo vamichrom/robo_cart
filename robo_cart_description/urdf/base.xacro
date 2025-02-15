@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:property name="base_length" value="0.256" />
+    <xacro:property name="base_width" value="0.1" />
+    <xacro:property name="base_height" value="0.05" />
+    <xacro:property name="wheel_radius" value="0.03" />
+    <xacro:property name="wheel_length" value="0.01" />
+    <xacro:property name="base_mass" value="1.366" />
+    <xacro:property name="wheel_mass" value="0.047" />
+
+    <xacro:macro name="wheel_link" params="prefix">
+        <link name="${prefix}_wheel_link">
+            <visual>
+                <geometry>
+                    <cylinder radius="${wheel_radius}" length="${wheel_length}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="${pi / 2.0} 0.0 0.0" />
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${wheel_radius}" />
+                </geometry>
+                <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            </collision>
+            <xacro:cylinder_inertia m="${wheel_mass}" r="${wheel_radius}" l="${wheel_length}"
+                o_xyz="0 0 0"
+                o_rpy="${pi / 2.0} 0 0" />
+        </link>
+    </xacro:macro>
+
+    <link name="base_footprint_link" /><!-- the world link -->
+
+    <joint name="base_footprint_base_joint" type="fixed">
+        <parent link="base_footprint_link" /><!-- sets the relationship to the world link -->
+        <child link="base_link" /><!-- it'll be an error if relationship is not specified -->
+        <origin xyz="0.0 0.0 ${wheel_radius}" />
+    </joint>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}" />
+            </geometry>
+            <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" /><!-- add a link but not
+            modify the origin -->
+            <material name="white" /><!-- make sure to place inside the <visual> tag -->
+            <!-- <geometry>, <origin> and <material> tags should be direct children -->
+            <!-- of the <visual> tag -->
+        </visual>
+        <collision>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_height}" />
+            </geometry>
+            <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" />
+        </collision>
+        <xacro:box_inertia m="${base_mass}" x="${base_length}" y="${base_width}"
+            z="${base_height}" o_xyz="0 0 ${base_height / 2.0}" o_rpy="0 0 0" />
+    </link>
+
+    <xacro:wheel_link prefix="front_right" />
+
+    <joint name="base_front_right_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="front_right_wheel_link" />
+        <origin xyz="${base_length / 4.0} ${-(base_width + wheel_length) / 2.0} 0.0"
+            rpy="0.0 0.0 0.0" />
+        <axis xyz="0.0 1.0 0.0" /><!-- rotation axis y -->
+    </joint>
+
+    <xacro:wheel_link prefix="front_left" />
+
+    <joint name="base_front_left_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="front_left_wheel_link" />
+        <origin xyz="${base_length / 4.0} ${(base_width + wheel_length) / 2.0} 0.0"
+            rpy="0.0 0.0 0.0" />
+        <axis xyz="0.0 1.0 0.0" /><!-- rotation axis y -->
+    </joint>
+
+    <xacro:wheel_link prefix="rear_right" />
+
+    <joint name="base_rear_right_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="rear_right_wheel_link" />
+        <origin xyz="${-base_length / 4.0} ${-(base_width + wheel_length) / 2.0} 0.0"
+            rpy="0.0 0.0 0.0" />
+        <axis xyz="0.0 1.0 0.0" /><!-- rotation axis y -->
+    </joint>
+
+    <xacro:wheel_link prefix="rear_left" />
+
+    <joint name="base_rear_left_wheel_joint" type="continuous">
+        <parent link="base_link" />
+        <child link="rear_left_wheel_link" />
+        <origin xyz="${-base_length / 4.0} ${(base_width + wheel_length) / 2.0} 0.0"
+            rpy="0.0 0.0 0.0" />
+        <axis xyz="0.0 1.0 0.0" /><!-- rotation axis y -->
+    </joint>
+
+</robot>

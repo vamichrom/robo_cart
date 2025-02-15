@@ -1,0 +1,9 @@
+<library path="arduino_hardware">
+  <class name="arduino_hardware/ArduinoHardwareInterface"
+         type="ArduinoHardwareInterface"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      A custom hardware interface for communicating with an Arduino Uno.
+    </description>
+  </class>
+</library>
