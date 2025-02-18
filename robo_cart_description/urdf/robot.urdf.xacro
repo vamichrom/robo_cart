@@ -1,31 +1,18 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robo_cart">
 
+    <xacro:arg name="use_ros2_control" default="false" />
+    
     <!--<mesh filename="file://$(find robo_cart_description)/meshes/base.stl)" scale="1.0"/>-->
     <xacro:include filename="$(find robo_cart_description)/urdf/properties.xacro" />
     <xacro:include filename="$(find robo_cart_description)/urdf/base.xacro" />
-    <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_control.xacro" />
 
-    <ros2_control name="ArduinoSystem" type="system">
-        <hardware>
-            <plugin>arduino_hardware/ArduinoHardwareInterface</plugin>
-        </hardware>
-        <joint name="base_front_left_wheel_joint">
-            <command_interface name="velocity" />
-            <state_interface name="position" />
-        </joint>
-        <joint name="base_front_right_wheel_joint">
-            <command_interface name="velocity" />
-            <state_interface name="position" />
-        </joint>
-        <joint name="base_rear_left_wheel_joint">
-            <command_interface name="velocity" />
-            <state_interface name="position" />
-        </joint>
-        <joint name="base_rear_right_wheel_joint">
-            <command_interface name="velocity" />
-            <state_interface name="position" />
-        </joint>
-    </ros2_control>
+    <xacro:if value="$(arg use_ros2_control)">
+        <xacro:include filename="$(find robo_cart_description)/urdf/ros2_control.xacro" />
+    </xacro:if>
+
+    <xacro:unless value="$(arg use_ros2_control)">
+        <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_control.xacro" />
+    </xacro:unless>
 
 </robot>

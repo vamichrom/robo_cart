@@ -2,7 +2,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <gazebo>
         <plugin name="gz::sim::systems::MecanumDrive" filename="libgz-sim8-mecanum-drive-system">
-
             <front_left_joint>base_front_left_wheel_joint</front_left_joint>
             <front_right_joint>base_front_right_wheel_joint</front_right_joint>
             <back_left_joint>base_rear_left_wheel_joint</back_left_joint>
@@ -10,7 +9,11 @@
             <wheelbase>${base_length / 2.0}</wheelbase>
             <wheel_separation>${base_width + wheel_length}</wheel_separation>
             <wheel_radius>${wheel_radius}</wheel_radius>
-
+            <frame_id>odom</frame_id>
+            <child_frame_id>base_footprint_link</child_frame_id>
         </plugin>
+
+        <plugin name="gz::sim::systems::JointStatePublisher"
+            filename="libgz-sim8-joint-state-publisher-system" />
     </gazebo>
 </robot>
