@@ -7,7 +7,7 @@
             <back_left_joint>base_rear_left_wheel_joint</back_left_joint>
             <back_right_joint>base_rear_right_wheel_joint</back_right_joint>
             <wheelbase>${base_length / 2.0}</wheelbase>
-            <wheel_separation>${base_width + wheel_length}</wheel_separation>
+            <wheel_separation>${base_width + wheel_width}</wheel_separation>
             <wheel_radius>${wheel_radius}</wheel_radius>
             <odom_publish_frequency>10.0</odom_publish_frequency>
             <topic>/model/robo_cart/cmd_vel</topic>
