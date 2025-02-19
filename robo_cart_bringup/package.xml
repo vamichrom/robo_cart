@@ -5,7 +5,7 @@
   <version>0.0.0</version>
   <description>Robotic Cart Project</description>
   <maintainer email="vamichrom@gmail.com">vamichrom</maintainer>
-  <license>MIT License</license>
+  <license>MIT-0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
   <exec_depend>robo_cart_description</exec_depend>
