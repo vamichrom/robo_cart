@@ -9,12 +9,17 @@
             <wheelbase>${base_length / 2.0}</wheelbase>
             <wheel_separation>${base_width + wheel_length}</wheel_separation>
             <wheel_radius>${wheel_radius}</wheel_radius>
+            <odom_publish_frequency>10.0</odom_publish_frequency>
+            <topic>/model/robo_cart/cmd_vel</topic>
+            <odom_topic>/model/robo_cart/odometry</odom_topic>
+            <tf_topic>/model/robo_cart/tf</tf_topic>
             <frame_id>odom</frame_id>
             <child_frame_id>base_footprint_link</child_frame_id>
         </plugin>
 
         <plugin name="gz::sim::systems::OdometryPublisher"
             filename="libgz-sim8-odometry-publisher-system">
+            <odom_publish_frequency>10.0</odom_publish_frequency>
             <odom_frame>odom</odom_frame>
             <robot_base_frame>base_footprint_link</robot_base_frame>
         </plugin>
