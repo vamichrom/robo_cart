@@ -1,12 +1,12 @@
 mecanum_drive_controller:
   ros__parameters:
-    front_left_joint_name: front_left_wheel_joint # Name of a joint that controls a front left wheel.
-    front_right_joint_name: front_right_wheel_joint # Name of a joint that controls a front right wheel.
-    back_left_joint_name: back_left_wheel_joint # Name of a joint that controls a back left wheel.
-    back_right_joint_name: back_right_wheel_joint # Name of a joint that controls a back right wheel.
+    front_left_joint_name: base_front_left_wheel_joint # Name of a joint that controls a front left wheel.
+    front_right_joint_name: base_front_right_wheel_joint # Name of a joint that controls a front right wheel.
+    back_left_joint_name: base_rear_left_wheel_joint # Name of a joint that controls a back left wheel.
+    back_right_joint_name: base_rear_right_wheel_joint # Name of a joint that controls a back right wheel.
 
-    wheel_base: 0.16 # Longitudinal distance between front and back wheels, in meters.
-    wheel_separation: 0.169 # Lateral distance between left and right wheels, in meters.
+    wheel_base: 0.128 # Longitudinal distance between front and back wheels, in meters.
+    wheel_separation: 0.1304 # Lateral distance between left and right wheels, in meters.
     wheel_radius: 0.0325 # Wheel radius in meters.
 
     wheel_separation_multiplier: 1.0 # Correction factor for wheel separation

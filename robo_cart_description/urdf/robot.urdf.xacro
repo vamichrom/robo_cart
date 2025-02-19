@@ -1,18 +1,35 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robo_cart">
 
+    <xacro:arg name="robot_name" default="robo_cart" />
     <xacro:arg name="use_ros2_control" default="false" />
-    
+    <xacro:arg name="use_gazebo" default="true" />
+
     <!--<mesh filename="file://$(find robo_cart_description)/meshes/base.stl)" scale="1.0"/>-->
     <xacro:include filename="$(find robo_cart_description)/urdf/properties.xacro" />
     <xacro:include filename="$(find robo_cart_description)/urdf/base.xacro" />
 
-    <xacro:if value="$(arg use_ros2_control)">
+    <xacro:if value="$(arg use_ros2_control)"><!-- true if use_ros2_control is true -->
+     <xacro:unless value="$(arg use_gazebo)"><!-- true if use_gazebo is false -->
         <xacro:include filename="$(find robo_cart_description)/urdf/ros2_control.xacro" />
+    </xacro:unless>
     </xacro:if>
 
-    <xacro:unless value="$(arg use_ros2_control)">
-        <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_control.xacro" />
+    <xacro:unless value="$(arg use_ros2_control)"> <!-- true if use_ros2_control is false -->
+    <xacro:unless value="$(arg use_gazebo)"><!-- true if use_gazebo is false -->
+        <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_control.xacro" /><!-- load basic config -->
     </xacro:unless>
+    </xacro:unless>
+
+    <!-- //////////////////////////////////////////////////////////////////////////  -->
+
+    <xacro:include filename="$(find robo_cart_description)/urdf/velocity_control_plugin.urdf.xacro" />
+    <xacro:load_velocity_control_plugin use_gazebo="$(arg use_gazebo)" />
+
+    <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_sim_ros2_control.urdf.xacro" />
+    <xacro:load_gazebo_sim_ros2_control_plugin robot_name="$(arg robot_name)" use_gazebo="$(arg use_gazebo)" />
+
+    <xacro:include filename="$(find robo_cart_description)/urdf/robo_cart_ros2_control.urdf.xacro" />
+    <xacro:robo_cart_ros2_control use_gazebo="$(arg use_gazebo)" />
 
 </robot>
