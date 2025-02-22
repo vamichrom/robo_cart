@@ -1,24 +1,30 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <ros2_control name="ArduinoSystem" type="system">
+    <ros2_control name="RoboCart" type="system">
         <hardware>
-            <plugin>arduino_hardware/ArduinoHardwareInterface</plugin>
+            <plugin>ros2_control_arduino_hw/RoboCartArduinoHW</plugin>
+            <!-- Here comes a list of parameters either individually 
+        in param tags or passed in yaml file -->
         </hardware>
         <joint name="base_front_left_wheel_joint">
             <command_interface name="velocity" />
+            <state_interface name="velocity" />
             <state_interface name="position" />
         </joint>
         <joint name="base_front_right_wheel_joint">
             <command_interface name="velocity" />
+            <state_interface name="velocity" />
             <state_interface name="position" />
         </joint>
         <joint name="base_rear_left_wheel_joint">
             <command_interface name="velocity" />
+            <state_interface name="velocity" />
             <state_interface name="position" />
         </joint>
         <joint name="base_rear_right_wheel_joint">
             <command_interface name="velocity" />
+            <state_interface name="velocity" />
             <state_interface name="position" />
         </joint>
     </ros2_control>

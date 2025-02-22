@@ -2,13 +2,14 @@
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
     <xacro:macro name="robo_cart_ros2_control" params="use_gazebo">
-        <ros2_control name="RobotSystem" type="system">
+        <ros2_control name="RoboCart" type="system">
             <hardware>
                 <xacro:if value="${use_gazebo}">
+                    <!-- we gonna be using Gazebo plugin if use_gazebo is true -->
                     <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </xacro:if>
             </hardware>
-
+            <!-- we need another plugin for real hw if use_gazebo is false -->
             <joint name="base_front_left_wheel_joint">
               <command_interface name="velocity">
                   <param name="min">-50.0</param>
