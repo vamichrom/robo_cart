@@ -31,6 +31,8 @@ ament_target_dependencies(
 # prevent pluginlib from using boost
 target_compile_definitions(ros2_control_arduino_hw PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
+target_link_libraries(ros2_control_arduino_hw PUBLIC serial)
+
 pluginlib_export_plugin_description_file(
   hardware_interface ros2_control_arduino_hw.xml)
 

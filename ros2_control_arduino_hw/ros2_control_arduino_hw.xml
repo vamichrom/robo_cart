@@ -3,7 +3,7 @@
          type="ros2_control_arduino_hw::RoboCartArduinoHW"
          base_class_type="hardware_interface::SystemInterface">
     <description>
-      ros2_control hardware interface.
+      ros2_control RoboCartArduinoHW interface.
     </description>
   </class>
 </library>

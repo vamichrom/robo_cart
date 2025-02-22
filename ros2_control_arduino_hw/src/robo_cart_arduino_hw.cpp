@@ -38,13 +38,13 @@ namespace ros2_control_arduino_hw
     cfg_.joint_names.emplace_back(info_.hardware_parameters["back_right_joint_name"]);
     cfg_.loop_rate = std::stof(info_.hardware_parameters["loop_rate"]);
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Loop rate: %f", cfg_.loop_rate);
-    cfg_.device = "/dev/arduino";
+    cfg_.device = info_.hardware_parameters["device"];
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Device = %s", cfg_.device.c_str());
     cfg_.baud_rate = std::stoi(info_.hardware_parameters["baud_rate"]);
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Baud rate: %d", cfg_.baud_rate);
     cfg_.timeout_ms = std::stoi(info_.hardware_parameters["timeout_ms"]);
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Timeout: %d", cfg_.timeout_ms);
-    cfg_.encoder_ticks_per_rev = 20;
+    cfg_.encoder_ticks_per_rev = std::stoi(info_.hardware_parameters["encoder_counts_per_revolution"]);;
     if (info_.hardware_parameters.count("pid_p") > 0)
     {
       cfg_.pid_p = std::stoi(info_.hardware_parameters["pid_p"]);
@@ -69,7 +69,7 @@ namespace ros2_control_arduino_hw
     // Looping over the joints to assert that they make sense for this robot (ie. Velocity command interface, and Position and Velocity state interfaces)
     for (const hardware_interface::ComponentInfo &joint : info_.joints)
     {
-      // DiffBotSystem has exactly two states and one command interface on each joint
+      // RoboCartArduinoHW has exactly two states and one command interface on each joint
       if (joint.command_interfaces.size() != 1)
       {
         RCLCPP_FATAL(
@@ -122,10 +122,30 @@ namespace ros2_control_arduino_hw
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_configure(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-    // TODO(anyone): prepare the robot to be ready for read calls and write calls of some interfaces
-    // this is usually where we open up comms to our hardware
+  RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Configuring ...please wait...");
+  do
+    {  try
+      {
+        comms_.connect(cfg_.device,cfg_.baud_rate,cfg_.timeout_ms);
+      }
+      catch(const std::exception& e)
+      {
+        RCLCPP_ERROR(rclcpp::get_logger("RoboCartArduinoHW"), "Failed to connect to arduino: %s", e.what());
+      }
+    } while (!comms_.connected());
+  RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully configured!");
+  return hardware_interface::CallbackReturn::SUCCESS;
+  }
 
-    return CallbackReturn::SUCCESS;
+  hardware_interface::CallbackReturn RoboCartArduinoHW::on_cleanup(
+      const rclcpp_lifecycle::State & /*previous_state*/)
+  {
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Cleaning up ...please wait...");
+    // Stop hardware communication
+    if (comms_.connected())
+      comms_.disconnect();
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully cleaned up!");
+    return hardware_interface::CallbackReturn::SUCCESS;
   }
 
   std::vector<hardware_interface::StateInterface> RoboCartArduinoHW::export_state_interfaces()
@@ -157,8 +177,11 @@ namespace ros2_control_arduino_hw
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_activate(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Activating..."));
-    comms_.connect(cfg_.device, cfg_.baud_rate, cfg_.timeout_ms);
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Activating ...please wait..."));
+    if(cfg_.pid_p > 0)
+    {
+      comms_.set_pid_values(cfg_.pid_p,cfg_.pid_d,cfg_.pid_i,cfg_.pid_o);
+    }
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Successfully activated!"));
     return CallbackReturn::SUCCESS;
   }
@@ -166,14 +189,14 @@ namespace ros2_control_arduino_hw
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_deactivate(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Deactivating..."));
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Deactivating ...please wait..."));
     comms_.disconnect();
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Successfully deactivated!"));
     return CallbackReturn::SUCCESS;
   }
 
   hardware_interface::return_type RoboCartArduinoHW::read(
-      const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
+      const rclcpp::Time & /*time*/, const rclcpp::Duration &period)
   {
     if (!comms_.connected())
       return hardware_interface::return_type::ERROR;
@@ -182,7 +205,7 @@ namespace ros2_control_arduino_hw
     comms_.read_encoder_values(wheels_);
 
     // To get the velocity, we store the previous position and measure the change in position in the measured duration of time between them
-    double prev_positions[4];
+    double prev_positions[4]; // could be changed to float for efficiency: 4 bytes instead of 8 bytes per value
     for (int i = 0; i < 4; i++)
       prev_positions[i] = wheels_[i].pos;
 
