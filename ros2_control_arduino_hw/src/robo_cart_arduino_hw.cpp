@@ -44,7 +44,8 @@ namespace ros2_control_arduino_hw
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Baud rate: %d", cfg_.baud_rate);
     cfg_.timeout_ms = std::stoi(info_.hardware_parameters["timeout_ms"]);
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Timeout: %d", cfg_.timeout_ms);
-    cfg_.encoder_ticks_per_rev = std::stoi(info_.hardware_parameters["encoder_counts_per_revolution"]);;
+    cfg_.encoder_ticks_per_rev = std::stoi(info_.hardware_parameters["encoder_counts_per_revolution"]);
+    ;
     if (info_.hardware_parameters.count("pid_p") > 0)
     {
       cfg_.pid_p = std::stoi(info_.hardware_parameters["pid_p"]);
@@ -122,19 +123,20 @@ namespace ros2_control_arduino_hw
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_configure(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-  RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Configuring ...please wait...");
-  do
-    {  try
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Configuring ...please wait...");
+    do
+    {
+      try
       {
-        comms_.connect(cfg_.device,cfg_.baud_rate,cfg_.timeout_ms);
+        comms_.connect(cfg_.device, cfg_.baud_rate, cfg_.timeout_ms);
       }
-      catch(const std::exception& e)
+      catch (const std::exception &e)
       {
         RCLCPP_ERROR(rclcpp::get_logger("RoboCartArduinoHW"), "Failed to connect to arduino: %s", e.what());
       }
     } while (!comms_.connected());
-  RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully configured!");
-  return hardware_interface::CallbackReturn::SUCCESS;
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully configured!");
+    return hardware_interface::CallbackReturn::SUCCESS;
   }
 
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_cleanup(
@@ -177,21 +179,21 @@ namespace ros2_control_arduino_hw
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_activate(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Activating ...please wait..."));
-    if(cfg_.pid_p > 0)
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Activating ...please wait...");
+    if (cfg_.pid_p > 0)
     {
-      comms_.set_pid_values(cfg_.pid_p,cfg_.pid_d,cfg_.pid_i,cfg_.pid_o);
+      comms_.set_pid_values(cfg_.pid_p, cfg_.pid_d, cfg_.pid_i, cfg_.pid_o);
     }
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Successfully activated!"));
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully activated!");
     return CallbackReturn::SUCCESS;
   }
 
   hardware_interface::CallbackReturn RoboCartArduinoHW::on_deactivate(
       const rclcpp_lifecycle::State & /*previous_state*/)
   {
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Deactivating ...please wait..."));
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Deactivating ...please wait...");
     comms_.disconnect();
-    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW", "Successfully deactivated!"));
+    RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Successfully deactivated!");
     return CallbackReturn::SUCCESS;
   }
 

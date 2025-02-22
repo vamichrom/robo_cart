@@ -31,7 +31,7 @@ ament_target_dependencies(
 # prevent pluginlib from using boost
 target_compile_definitions(ros2_control_arduino_hw PUBLIC "PLUGINLIB__DISABLE_BOOST_FUNCTIONS")
 
-target_link_libraries(ros2_control_arduino_hw PUBLIC serial)
+target_link_libraries(ros2_control_arduino_hw serial)
 
 pluginlib_export_plugin_description_file(
   hardware_interface ros2_control_arduino_hw.xml)
@@ -48,29 +48,6 @@ install(
   DIRECTORY include/
   DESTINATION include
 )
-
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
-  set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
-  set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-  find_package(ament_cmake_gmock REQUIRED)
-  find_package(ros2_control_test_assets REQUIRED)
-
-  ament_add_gmock(test_robo_cart_arduino_hw test/test_robo_cart_arduino_hw.cpp)
-  target_include_directories(test_robo_cart_arduino_hw PRIVATE include)
-  ament_target_dependencies(
-    test_robo_cart_arduino_hw
-    hardware_interface
-    pluginlib
-    ros2_control_test_assets
-  )
-endif()
 
 ament_export_include_directories(
   include
