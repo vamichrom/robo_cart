@@ -16,7 +16,7 @@ def generate_launch_description():
     rviz_config_path = os.path.join(
         get_package_share_path('robo_cart_description'),
         'rviz',
-        'robo_cart_description.rviz'
+        'robo_cart_description_for_rviz.rviz'
     )
 
     robot_description = ParameterValue(Command(['xacro ', urdf_path]))

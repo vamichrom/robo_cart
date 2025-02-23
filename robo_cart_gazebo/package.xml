@@ -4,7 +4,7 @@
   <name>robo_cart_gazebo</name>
   <version>0.0.0</version>
   <description>Gazebo simulation support for robotic cart school project</description>
-  <maintainer email="vamichrom@gmail.com">ladmin</maintainer>
+  <maintainer email="vamichrom@gmail.com">vamichrom</maintainer>
   <license>MIT-0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

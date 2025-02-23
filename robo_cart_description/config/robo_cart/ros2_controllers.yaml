@@ -2,7 +2,7 @@
 # efficiently and robustly using ROS 2 Control.
 controller_manager:
  ros__parameters:
-   update_rate: 50  # Hz
+   update_rate: 1000  # Hz
 
    # Declare the controllers
    joint_state_broadcaster:
@@ -15,10 +15,10 @@ controller_manager:
 mecanum_drive_controller:
  ros__parameters:
    # Joint names
-   front_left_joint_name: base_front_left_wheel_joint # {prefix}front_left_wheel_joint
+   front_left_joint_name: base_front_left_wheel_joint # front_left_wheel_joint
    front_right_joint_name: base_front_right_wheel_joint # {prefix}front_right_wheel_joint
    back_left_joint_name: base_rear_left_wheel_joint # {prefix}rear_left_wheel_joint
-   back_right_joint_name: base_rear_right_wheel_joint # {prefix}rear_right_wheel_joint
+   back_right_joint_name: base_rear_right_wheel_joint # rear_right_wheel_joint
 
    # Robot physical parameters
    wheel_base: 0.128

@@ -14,12 +14,12 @@
         <xacro:include filename="$(find robo_cart_description)/urdf/ros2_control.xacro" />
     </xacro:unless>
     </xacro:if>
-
+    
+    <xacro:if value="$(arg use_gazebo)"><!-- true if use_gazebo is true -->
     <xacro:unless value="$(arg use_ros2_control)"> <!-- true if use_ros2_control is false -->
-    <xacro:unless value="$(arg use_gazebo)"><!-- true if use_gazebo is false -->
         <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_control.xacro" /><!-- load basic config -->
     </xacro:unless>
-    </xacro:unless>
+    </xacro:if>
 
     <!-- //////////////////////////////////////////////////////////////////////////  -->
 

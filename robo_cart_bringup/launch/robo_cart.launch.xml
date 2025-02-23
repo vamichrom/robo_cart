@@ -1,5 +1,7 @@
 <launch>
     <let name="urdf_path" value="$(find-pkg-share robo_cart_description)/urdf/robot.urdf.xacro" />
+    <let name="rviz_config_path"
+        value="$(find-pkg-share robo_cart_description)/rviz/robo_cart_description_for_gz.rviz" />
     <let name="gazebo_config_path"
         value="$(find-pkg-share robo_cart_bringup)/config/gazebo_bridge.yaml" />
     <node pkg="robot_state_publisher" exec="robot_state_publisher">
@@ -11,5 +13,9 @@
     <node pkg="ros_gz_sim" exec="create" args="-topic robot_description" />
     <node pkg="ros_gz_bridge" exec="parameter_bridge">
         <param name="config_file" value="$(var gazebo_config_path)" />
+    </node>
+    <node pkg="controller_manager" exec="spawner" args="mecanum_drive_controller" />
+    <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)">
+        <remap from="/odom" to="/mecanum_drive_controller/odom" />
     </node>
 </launch>

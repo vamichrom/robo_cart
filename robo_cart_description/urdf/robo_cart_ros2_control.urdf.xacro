@@ -27,7 +27,6 @@
                     <!-- all the other needed params -->
                 </xacro:unless>
             </hardware>
-            <!-- we need another plugin for real hw if use_gazebo is false -->
             <joint name="base_front_left_wheel_joint">
                 <command_interface name="velocity">
                     <param name="min">-50.0</param>

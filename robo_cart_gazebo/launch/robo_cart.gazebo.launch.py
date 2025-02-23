@@ -51,15 +51,20 @@ def generate_launch_description():
 
     # Set the path to different files and folders
     pkg_ros_gz_sim = FindPackageShare(package='ros_gz_sim').find('ros_gz_sim')
-    pkg_share_gazebo = FindPackageShare(package=package_name_gazebo).find(package_name_gazebo)
+    #print("!!!DEBUG!!!DEBUG!!!DEBUG!!!", FindPackageShare(package='ros_gz_sim')) # This is <launch_ros.substitutions.find_package.FindPackageShare object>
+    #print("!!!DEBUG!!!DEBUG!!!DEBUG!!!", FindPackageShare(package='ros_gz_sim').find('ros_gz_sim')) # Calling the object's find method returns a string with the path
+    pkg_share_gazebo = FindPackageShare(package=package_name_gazebo).find(package_name_gazebo) # this is a String
     pkg_share_description = FindPackageShare(
-        package=package_name_description).find(package_name_description)
-    pkg_share_bringup = FindPackageShare(package=package_name_bringup).find(package_name_bringup)
+        package=package_name_description).find(package_name_description) # this is a String
+    pkg_share_bringup = FindPackageShare(package=package_name_bringup).find(package_name_bringup) # this is a String
+
+    #print("!!!DEBUG!!!DEBUG!!!DEBUG!!!", type(pkg_share_bringup)) # <class 'str'>
 
     default_ros_gz_bridge_config_file_path = os.path.join(
         pkg_share_gazebo, ros_gz_bridge_config_file_path)
     default_rviz_config_path = PathJoinSubstitution(
         [pkg_share_gazebo, 'rviz', rviz_config_filename])
+    #print("!!!DEBUG!!!DEBUG!!!DEBUG!!!", PathJoinSubstitution([pkg_share_gazebo, 'rviz', rviz_config_filename])) # This is <launch.substitutions.path_join_substitution.PathJoinSubstitution object>
     gazebo_models_path = os.path.join(pkg_share_gazebo, gazebo_models_path)
 
     # Launch configuration variables
@@ -108,8 +113,10 @@ def generate_launch_description():
 
     declare_rviz_config_file_cmd = DeclareLaunchArgument(
         name='rviz_config_file',
-        default_value=default_rviz_config_path,
+        default_value=default_rviz_config_path, # PathJoinSubstitution object was passed as default_value
         description='Full path to the RVIZ config file to use')
+    
+    #print("!!!DEBUG!!!DEBUG!!!DEBUG!!!", declare_rviz_config_file_cmd) # This is <launch.actions.declare_launch_argument.DeclareLaunchArgument object>
 
     declare_load_controllers_cmd = DeclareLaunchArgument(
         name='load_controllers',
