@@ -1,14 +1,12 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
-
-    <xacro:macro name="robo_cart_ros2_control" params="use_gazebo">
+    <xacro:macro name="load_robo_cart_ros2_control" params="use_gazebo">
         <ros2_control name="RoboCart" type="system">
             <hardware>
-                <xacro:if value="${use_gazebo}">
-                    <!-- we gonna be using Gazebo plugin if use_gazebo is true -->
+                <xacro:if value="${use_gazebo}"><!-- true if use_gazebo is true-->
                     <plugin>gz_ros2_control/GazeboSimSystem</plugin>
                 </xacro:if>
-                <xacro:unless value="${use_gazebo}"><!-- if use_basebo is false -->
+                <xacro:unless value="${use_gazebo}"><!-- true if use_gazebo is false -->
                     <plugin>ros2_control_arduino_hw/RoboCartArduinoHW</plugin>
                     <param name="front_left_joint_name">base_front_left_wheel_joint</param>
                     <param name="front_right_joint_name">base_front_right_wheel_joint</param>
@@ -35,7 +33,6 @@
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-
             <joint name="base_front_right_wheel_joint">
                 <command_interface name="velocity">
                     <param name="min">-50.0</param>
@@ -44,7 +41,6 @@
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-
             <joint name="base_rear_left_wheel_joint">
                 <command_interface name="velocity">
                     <param name="min">-50.0</param>
@@ -53,7 +49,6 @@
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-
             <joint name="base_rear_right_wheel_joint">
                 <command_interface name="velocity">
                     <param name="min">-50.0</param>
@@ -62,8 +57,6 @@
                 <state_interface name="position" />
                 <state_interface name="velocity" />
             </joint>
-
         </ros2_control>
     </xacro:macro>
-
 </robot>

@@ -13,7 +13,7 @@
     </node>
     <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" />
     <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)" />
-    <!-- This will work if use_ros2_control is used in urdf instead of use_gazebo -->
+    <!-- This will work if use_gazebo is false -->
     <!-- 
         <remap from="/odom" to="/mecanum_drive_controller/odom" />
     -->
