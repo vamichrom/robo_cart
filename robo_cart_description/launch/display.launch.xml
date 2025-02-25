@@ -2,19 +2,9 @@
     <let name="urdf_path" value="$(find-pkg-share robo_cart_description)/urdf/robot.urdf.xacro" />
     <let name="rviz_config_path"
         value="$(find-pkg-share robo_cart_description)/rviz/robo_cart_description_for_rviz.rviz" />
-    <!-- If use_gazebo is used in urdf the following two lines do not work
-    because the controller manager will not be able to load mecanum_drive_controller -->
-    <!--
-    <let name="controller_cfg_path"
-        value="$(find-pkg-share robo_cart_description)/config/robo_cart/ros2_controllers.yaml" />
-    -->
     <node pkg="robot_state_publisher" exec="robot_state_publisher">
         <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
     </node>
     <node pkg="joint_state_publisher_gui" exec="joint_state_publisher_gui" />
     <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)" />
-    <!-- This will work if use_gazebo is false -->
-    <!-- 
-        <remap from="/odom" to="/mecanum_drive_controller/odom" />
-    -->
 </launch>

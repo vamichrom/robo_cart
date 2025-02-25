@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="load_wheel"
-    params="wheel_mass wheel_radius wheel_width use_gazebo prefix side x_reflect y_reflect">
+    params="base_width base_length wheel_mass wheel_radius wheel_width use_gazebo prefix side x_reflect y_reflect">
     
     <link name="${side}_wheel_link">
       <visual>

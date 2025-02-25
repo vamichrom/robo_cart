@@ -15,6 +15,7 @@
         <param name="config_file" value="$(var gazebo_config_path)" />
     </node>
     <node pkg="controller_manager" exec="spawner" args="mecanum_drive_controller" />
+    <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster" />
     <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)">
         <remap from="/odom" to="/mecanum_drive_controller/odom" />
     </node>
