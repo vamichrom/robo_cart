@@ -62,7 +62,9 @@ namespace ros2_control_arduino_hw
     for (int i = 0; i < 4; i++)
     {
       wheels_.emplace_back();
+      RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Setting up Wheel[%d]", i);
       wheels_[i].setup(cfg_.joint_names[i], cfg_.encoder_ticks_per_rev);
+      RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Set up Wheel[%d] with name %s and rads_per_count %f", i, wheels_[i].name.c_str(), wheels_[i].rads_per_count);
     }
 
     RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "RoboCartArduinoHW initialized successfully");
@@ -241,8 +243,11 @@ namespace ros2_control_arduino_hw
     */
 
     for (int i = 0; i < 4; i++)
-      motor_counts_per_loop[i] = wheels_[i].cmd / wheels_[i].rads_per_count / cfg_.loop_rate;
-
+    {
+      //RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Wheel[%d] Ang_vel=%f, Rads_per_count=%f, Loop_rate=%f ", i, wheels_[i].cmd, wheels_[i].rads_per_count, cfg_.loop_rate);
+      motor_counts_per_loop[i] = wheels_[i].cmd/wheels_[i].rads_per_count/cfg_.loop_rate;
+      //RCLCPP_INFO(rclcpp::get_logger("RoboCartArduinoHW"), "Set up motor_counts_per_loop[%d] with %d", i, motor_counts_per_loop[i]);
+    }
     comms_.set_motor_values(motor_counts_per_loop);
 
     return hardware_interface::return_type::OK;

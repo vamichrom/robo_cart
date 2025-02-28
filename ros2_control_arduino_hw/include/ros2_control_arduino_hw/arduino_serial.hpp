@@ -33,7 +33,7 @@ LibSerial::BaudRate convert_baud_rate(int baud_rate)
   case 230400:
     return LibSerial::BaudRate::BAUD_230400;
   default:
-    std::cout << "Error! Baud rate " << baud_rate << " not supported! Default to 57600" << std::endl;
+    std::cerr << "Error! Baud rate " << baud_rate << " not supported! Default to 57600" << std::endl;
     return LibSerial::BaudRate::BAUD_57600;
   }
 }
@@ -65,7 +65,27 @@ namespace ros2_control_arduino_hw
       return serial_conn_.IsOpen();
     }
 
-    std::string send_msg(const std::string &msg_to_send, bool print_output = true)
+    std::string escapeSpecialChars(const std::string &input)
+    {
+      std::string result;
+      for (char ch : input)
+      {
+        switch (ch)
+        {
+        case '\r': // Carriage return
+          result += "\\r";
+          break;
+        case '\n': // Newline
+          result += "\\n";
+          break;
+        default:
+          result += ch; // Keep other characters as-is
+        }
+      }
+      return result;
+    }
+
+    std::string send_msg(const std::string &msg_to_send, bool print_output = false)
     {
       serial_conn_.FlushIOBuffers(); // Just in case
       serial_conn_.Write(msg_to_send);
@@ -83,7 +103,7 @@ namespace ros2_control_arduino_hw
 
       if (print_output)
       {
-        std::cout << "Sent: " << msg_to_send << " Recv: " << response << std::endl;
+        std::cerr << "Sent: " << escapeSpecialChars(msg_to_send) << " Recv: " << escapeSpecialChars(response) << std::endl;
       }
 
       return response;
@@ -91,12 +111,12 @@ namespace ros2_control_arduino_hw
 
     void send_empty_msg()
     {
-      std::string response = send_msg("\r");
+      std::string response = send_msg("\r", true);
     }
 
     void read_encoder_values(std::vector<Wheel> &wheels)
     {
-      std::string response = send_msg("e\r");
+      std::string response = send_msg("e\r", true);
 
       std::string delimiter = " ";
       std::string token_arr[4];
@@ -121,14 +141,14 @@ namespace ros2_control_arduino_hw
     {
       std::stringstream ss;
       ss << "m " << motor_values[0] << " " << motor_values[1] << " " << motor_values[2] << " " << motor_values[3] << "\r";
-      send_msg(ss.str());
+      send_msg(ss.str(), true);
     }
 
     void set_pid_values(int k_p, int k_d, int k_i, int k_o)
     {
       std::stringstream ss;
       ss << "u " << k_p << ":" << k_d << ":" << k_i << ":" << k_o << "\r";
-      send_msg(ss.str());
+      send_msg(ss.str(), true);
     }
 
   private:
