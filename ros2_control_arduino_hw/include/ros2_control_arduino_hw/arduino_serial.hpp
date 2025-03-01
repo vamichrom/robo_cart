@@ -126,9 +126,10 @@ namespace ros2_control_arduino_hw
       // Find delimiter and split the string at it, erase the substring+delimiter from the response, repeat
       while (pos != std::string::npos && i < 3)
       {
+        pos = response.find(delimiter); // find where the first token ends
         token_arr[i] = response.substr(0, pos); // Read pos characters from the beginning (index 0)
         response.erase(0, pos + delimiter.length());
-        pos = response.find(delimiter); // Returns std::string::npos if it fails
+        //pos = response.find(delimiter); // Returns std::string::npos if it fails
         i++;
       }
       token_arr[3] = response;
