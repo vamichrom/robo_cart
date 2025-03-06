@@ -19,6 +19,8 @@
         base_length="$(arg base_length)" base_width="$(arg base_width)"
         base_height="$(arg base_height)" base_mass="$(arg base_mass)" />
     
+    <xacro:include filename="$(find robo_cart_description)/urdf/lidar.xacro" />
+    
     <xacro:include filename="$(find robo_cart_description)/urdf/velocity_control_plugin.xacro" />
     <xacro:load_velocity_control_plugin use_gazebo="$(arg use_gazebo)" />
     

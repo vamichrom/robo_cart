@@ -1,0 +1,59 @@
+
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="load_lidar"
+        params="use_gazebo wheel_radius wheel_width wheel_mass base_length base_width base_height base_mass">
+        <xacro:arg name="prefix" default="base" />
+
+        <link name="base_footprint_link" />
+
+        <joint name="base_footprint_base_joint" type="fixed">
+            <parent link="base_footprint_link" />
+            <child link="base_link" />
+            <origin xyz="0.0 0.0 ${wheel_radius}" />
+        </joint>
+
+        <link name="base_link">
+            <visual>
+                <geometry>
+                    <box size="${base_length} ${base_width} ${base_height}" />
+                </geometry>
+                <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" />
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="${base_length} ${base_width} ${base_height}" />
+                </geometry>
+                <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" />
+            </collision>
+            <xacro:box_inertia m="${base_mass}" x="${base_length}" y="${base_width}"
+                z="${base_height}" o_xyz="0 0 ${base_height / 2.0}" o_rpy="0 0 0" />
+        </link>
+
+        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
+        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
+            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
+            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
+            side="front_right" x_reflect="1" y_reflect="-1" />
+
+        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
+        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
+            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
+            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
+            side="front_left" x_reflect="1" y_reflect="1" />
+
+        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
+        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
+            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
+            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
+            side="rear_right" x_reflect="-1" y_reflect="-1" />
+
+        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
+        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
+            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
+            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
+            side="rear_left" x_reflect="-1" y_reflect="1" />
+
+    </xacro:macro>
+</robot>
