@@ -1,59 +1,64 @@
-
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:macro name="load_lidar"
-        params="use_gazebo wheel_radius wheel_width wheel_mass base_length base_width base_height base_mass">
-        <xacro:arg name="prefix" default="base" />
-
-        <link name="base_footprint_link" />
-
-        <joint name="base_footprint_base_joint" type="fixed">
-            <parent link="base_footprint_link" />
-            <child link="base_link" />
-            <origin xyz="0.0 0.0 ${wheel_radius}" />
+    <xacro:macro name="load_lidar" params="base_length use_gazebo">
+        <joint name="base_laser_frame_joint" type="fixed">
+            <parent link="base_link" />
+            <child link="laser_frame" />
+            <origin xyz="${base_length / 4.0} 0 0.07" rpy="0 0 0" />
         </joint>
-
-        <link name="base_link">
+        <link name="laser_frame">
             <visual>
+                <origin xyz="0.0 -0.004 0.0" rpy="0.0 0.0 ${-M_PI}" />
                 <geometry>
-                    <box size="${base_length} ${base_width} ${base_height}" />
+                    <mesh filename="file://$(find robo_cart_description)/meshes/X3_Lidar.stl"
+                        scale="0.008 0.008 0.008" />
                 </geometry>
-                <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" />
-                <material name="white" />
+                <material name="black" />
             </visual>
             <collision>
                 <geometry>
-                    <box size="${base_length} ${base_width} ${base_height}" />
+                    <cylinder radius="0.032" length="0.018" />
                 </geometry>
-                <origin xyz="0.0 0.0 ${base_height / 2.0}" rpy="0.0 0.0 0.0" />
             </collision>
-            <xacro:box_inertia m="${base_mass}" x="${base_length}" y="${base_width}"
-                z="${base_height}" o_xyz="0 0 ${base_height / 2.0}" o_rpy="0 0 0" />
+            <xacro:cylinder_inertia m="0.020" r="0.032" l="0.018" o_xyz="0 0 0" o_rpy="0 0 0" />
         </link>
-
-        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
-        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
-            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
-            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
-            side="front_right" x_reflect="1" y_reflect="-1" />
-
-        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
-        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
-            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
-            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
-            side="front_left" x_reflect="1" y_reflect="1" />
-
-        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
-        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
-            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
-            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
-            side="rear_right" x_reflect="-1" y_reflect="-1" />
-
-        <xacro:include filename="$(find robo_cart_description)/urdf/mecanum_wheel.xacro" />
-        <xacro:load_wheel base_width="$(arg base_width)" base_length="$(arg base_length)"
-            wheel_mass="$(arg wheel_mass)" wheel_width="$(arg wheel_width)"
-            wheel_radius="$(arg wheel_radius)" use_gazebo="$(arg use_gazebo)" prefix="$(arg prefix)"
-            side="rear_left" x_reflect="-1" y_reflect="1" />
-
+        <xacro:if value="${use_gazebo}">
+            <gazebo reference="laser_frame">
+                <material>
+                    <ambient>0.1 0.1 0.1 1</ambient>
+                    <diffuse>0.1 0.1 0.1 1</diffuse>
+                    <specular>0.1 0.1 0.1 1</specular>
+                </material>
+                <sensor name="laser" type="gpu_lidar">
+                    <pose relative_to="laser_frame"> 0 0 0 0 0 0 </pose>
+                    <gz_frame_id>laser_frame</gz_frame_id>
+                    <topic>scan</topic>
+                    <update_rate>10</update_rate>
+                    <always_on>true</always_on>
+                    <visualize>true</visualize>
+                    <lidar>
+                        <scan>
+                            <horizontal>
+                                <samples>360</samples>
+                                <resolution>1</resolution>
+                                <min_angle>-3.14159</min_angle>
+                                <max_angle>3.14159</max_angle>
+                            </horizontal>
+                            <vertical>
+                                <samples>1</samples>
+                                <resolution>1</resolution>
+                                <min_angle>0</min_angle>
+                                <max_angle>0</max_angle>
+                            </vertical>
+                        </scan>
+                        <range>
+                            <min>0.20</min>
+                            <max>30.0</max>
+                            <resolution>0.013</resolution>
+                        </range>
+                    </lidar>
+                </sensor>
+            </gazebo>
+        </xacro:if>
     </xacro:macro>
 </robot>

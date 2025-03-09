@@ -34,6 +34,13 @@
                 </plugin>
                 <plugin name="gz::sim::systems::JointStatePublisher"
                     filename="libgz-sim8-joint-state-publisher-system" />
+                <!--
+                <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+                    <render_engine>ogre2</render_engine>
+                </plugin>
+                
+                <plugin filename="gui/libVisualizeLidar.so" name="gz::sim::v8::VisualizeLidar" />
+                -->
             </gazebo>
         </xacro:if>
     </xacro:macro>

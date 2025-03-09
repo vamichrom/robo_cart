@@ -4,11 +4,13 @@
         value="$(find-pkg-share robo_cart_description)/rviz/robo_cart_description_for_gz.rviz" />
     <let name="gazebo_config_path"
         value="$(find-pkg-share robo_cart_bringup)/config/gazebo_bridge.yaml" />
+    <let name="gazebo_empty_world_path"
+        value="$(find-pkg-share robo_cart_gazebo)/worlds/empty.world" />
     <node pkg="robot_state_publisher" exec="robot_state_publisher">
         <param name="robot_description" value="$(command 'xacro $(var urdf_path)')" />
     </node>
     <include file="$(find-pkg-share ros_gz_sim)/launch/gz_sim.launch.py">
-        <arg name="gz_args" value="empty.sdf -r" />
+        <arg name="gz_args" value="$(var gazebo_empty_world_path) -r -v 4" />
     </include>
     <node pkg="ros_gz_sim" exec="create" args="-topic robot_description" />
     <node pkg="ros_gz_bridge" exec="parameter_bridge">

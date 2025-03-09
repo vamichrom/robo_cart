@@ -20,7 +20,8 @@
         base_height="$(arg base_height)" base_mass="$(arg base_mass)" />
     
     <xacro:include filename="$(find robo_cart_description)/urdf/lidar.xacro" />
-    
+    <xacro:load_lidar base_length="$(arg base_length)" use_gazebo="$(arg use_gazebo)" />
+
     <xacro:include filename="$(find robo_cart_description)/urdf/velocity_control_plugin.xacro" />
     <xacro:load_velocity_control_plugin use_gazebo="$(arg use_gazebo)" />
     
