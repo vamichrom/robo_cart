@@ -3,8 +3,9 @@ import os
 from ament_index_python import get_package_share_path
 
 from launch import LaunchDescription
-from launch.actions import TimerAction, RegisterEventHandler
-from launch.substitutions import Command
+from launch.actions import TimerAction, RegisterEventHandler, IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import Command, ThisLaunchFileDir
 from launch.event_handlers import OnProcessStart
 
 from launch_ros.actions import Node
@@ -76,5 +77,11 @@ def generate_launch_description():
         robot_state_publisher_node,
         delayed_controller_manager,
         delayed_mecanum_drive_controller_spawner,
-        delayed_joint_state_broadcaster_spawner
+        delayed_joint_state_broadcaster_spawner,
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/lidar.launch.py'])
+        ),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/camera.launch.py'])
+        ),
     ])

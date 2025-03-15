@@ -1,35 +1,40 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robo_cart">
-    
-    <xacro:arg name="use_gazebo" default="true" />
-    <xacro:arg name="wheel_radius" default="0.0325" />
-    <xacro:arg name="wheel_width" default="0.03040" />
+
+    <xacro:arg name="use_gazebo" default="false" />
+    <xacro:arg name="wheel_radius" default="0.03" />
+    <xacro:arg name="wheel_width" default="0.03" />
     <xacro:arg name="wheel_mass" default="0.047" />
     <xacro:arg name="base_length" default="0.256" />
     <xacro:arg name="base_width" default="0.1" />
-    <xacro:arg name="base_height" default="0.05" />
+    <xacro:arg name="base_height" default="0.063" />
     <xacro:arg name="base_mass" default="1.366" />
-    
+
     <!--<mesh filename="file://$(find robo_cart_description)/meshes/base.stl)" scale="1.0"/>-->
     <xacro:include filename="$(find robo_cart_description)/urdf/properties.xacro" />
-    
+
     <xacro:include filename="$(find robo_cart_description)/urdf/base.xacro" />
     <xacro:load_base use_gazebo="$(arg use_gazebo)" wheel_radius="$(arg wheel_radius)"
         wheel_width="$(arg wheel_width)" wheel_mass="$(arg wheel_mass)"
         base_length="$(arg base_length)" base_width="$(arg base_width)"
         base_height="$(arg base_height)" base_mass="$(arg base_mass)" />
-    
+
     <xacro:include filename="$(find robo_cart_description)/urdf/lidar.xacro" />
-    <xacro:load_lidar base_length="$(arg base_length)" use_gazebo="$(arg use_gazebo)" />
+    <xacro:load_lidar base_length="$(arg base_length)" base_height="$(arg base_height)"
+        use_gazebo="$(arg use_gazebo)" />
+
+    <xacro:include filename="$(find robo_cart_description)/urdf/camera.xacro" />
+    <xacro:load_camera base_length="$(arg base_length)" base_height="$(arg base_height)"
+        use_gazebo="$(arg use_gazebo)" />
 
     <xacro:include filename="$(find robo_cart_description)/urdf/velocity_control_plugin.xacro" />
     <xacro:load_velocity_control_plugin use_gazebo="$(arg use_gazebo)" />
-    
+
     <xacro:include filename="$(find robo_cart_description)/urdf/gazebo_sim_ros2_control.xacro" />
     <xacro:load_gazebo_sim_ros2_control_plugin use_gazebo="$(arg use_gazebo)"
         base_length="$(arg base_length)" base_width="$(arg base_width)"
         wheel_radius="$(arg wheel_radius)" wheel_width="$(arg wheel_width)" />
-    
+
     <xacro:include filename="$(find robo_cart_description)/urdf/robo_cart_ros2_control.xacro" />
     <xacro:load_robo_cart_ros2_control use_gazebo="$(arg use_gazebo)" />
 </robot>

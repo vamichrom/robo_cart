@@ -42,16 +42,8 @@ def process_ros2_controllers_config(context):
     home = str(Path.home())
 
     # Define both source and install paths
-    src_config_path = os.path.join(
-        home,
-        '/home/ladmin/Documents/projects/ROS2/school_project_ws/src/robo_cart/robo_cart_description/config',
-        robot_name
-    )
-    install_config_path = os.path.join(
-        home,
-        '/home/ladmin/Documents/projects/ROS2/school_project_ws/install/robo_cart_description/share/robo_cart_description/config',
-        robot_name
-    )
+    src_config_path = '/home/ladmin/Documents/projects/ROS2/school_project_ws/src/robo_cart/robo_cart_description/config'
+    install_config_path = '/home/ladmin/Documents/projects/ROS2/school_project_ws/install/robo_cart_description/share/robo_cart_description/config'
 
     # Read from source template
     template_path = os.path.join(src_config_path, 'ros2_controllers_template.yaml')
