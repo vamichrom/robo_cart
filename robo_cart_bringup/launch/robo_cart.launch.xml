@@ -21,4 +21,7 @@
     <node pkg="rviz2" exec="rviz2" args="-d $(var rviz_config_path)">
         <remap from="/odom" to="/mecanum_drive_controller/odom" />
     </node>
+    <include file="$(find-pkg-share robo_cart_bringup)/launch/joystick.launch.py">
+        <arg name="use_sim_time" value="true" />
+    </include>
 </launch>
