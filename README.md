@@ -49,11 +49,11 @@ A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberr
     Rviz:
 
         ros2 launch robo_cart_description display.launch.xml
-
-        ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/rviz.gif)
+        
+    ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/rviz.gif)
 
     Gazebo:
 
         ros2 launch robo_cart_bringup robo_cart.launch.xml
 
-        ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/gazebo.gif)
+    ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/gazebo.gif)
