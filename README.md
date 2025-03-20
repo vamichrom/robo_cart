@@ -2,6 +2,8 @@
 
 A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberry Pi 5
 
+![Robotic cart](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/jpeg/robo_cart.jpg)
+
 ## Usage
 
 1. [Install Ubuntu Noble 24.04](https://www.google.com/search?q=Install+Ubuntu+Noble)
@@ -25,19 +27,23 @@ A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberr
     Result:
 
         Starting >>> robo_cart_description
+        Starting >>> obj_tracker
         Starting >>> mecanum_drive_controller
         Starting >>> robo_cart_gazebo
         Starting >>> ros2_control_arduino_hw
         Starting >>> usb_gamepad
-        Finished <<< ros2_control_arduino_hw [0.66s]
-        Finished <<< robo_cart_description [0.70s]
+        Starting >>> ydlidar_ros2_driver
+        Finished <<< robo_cart_description [1.19s]                                                        
         Starting >>> robo_cart_bringup
-        Finished <<< mecanum_drive_controller [0.72s]
-        Finished <<< robo_cart_gazebo [0.76s]
-        Finished <<< robo_cart_bringup [0.18s]
-        Finished <<< usb_gamepad [2.15s]
+        Finished <<< ros2_control_arduino_hw [1.19s]                                                         
+        Finished <<< robo_cart_gazebo [1.24s]
+        Finished <<< mecanum_drive_controller [1.27s]
+        Finished <<< ydlidar_ros2_driver [1.30s]                                        
+        Finished <<< robo_cart_bringup [0.24s]                                                                         
+        Finished <<< usb_gamepad [3.05s]                                            
+        Finished <<< obj_tracker [3.11s]          
 
-        Summary: 6 packages finished [2.40s]
+        Summary: 8 packages finished [3.69s]
 
 7. [Source the workspace](https://docs.ros.org/en/jazzy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html#source-the-overlay) into every new terminal session or configure ~/.bashrc
 
@@ -50,10 +56,10 @@ A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberr
 
         ros2 launch robo_cart_description display.launch.xml
         
-    ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/rviz.gif)
+    ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/gif/rviz.gif)
 
     Gazebo:
 
         ros2 launch robo_cart_bringup robo_cart.launch.xml
 
-    ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/8aca91e14bb38d08dbbbebfd5badc79b85019049/docs/gifs/gazebo.gif)
+    ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/gif/gazebo.gif)
