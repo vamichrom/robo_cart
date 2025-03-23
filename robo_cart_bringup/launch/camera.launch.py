@@ -12,8 +12,10 @@ def generate_launch_description():
         package='v4l2_camera',
         executable='v4l2_camera_node',
         output='screen',
+        namespace='camera',
         parameters=[{'video_device': '/dev/webcam',
                      'camera_frame_id': 'camera_link_optical',
+                     'time_per_frame': [1, 6],
                      'output_encoding': 'yuv422_yuy2',
                      'pixel_format': 'YUYV',
                      'image_size': [640,480]}]

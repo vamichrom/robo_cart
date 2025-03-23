@@ -8,7 +8,7 @@
         </joint>
         <link name="laser_frame">
             <visual>
-                <origin xyz="0.0 -0.004 0.0" rpy="0.0 0.0 ${-M_PI}" />
+                <origin xyz="0.0 -0.004 0.015" rpy="0.0 0.0 ${-M_PI}" />
                 <geometry>
                     <mesh filename="file://$(find robo_cart_description)/meshes/X3_Lidar.stl"
                         scale="0.001 0.001 0.001" />
@@ -20,7 +20,7 @@
                     <cylinder radius="0.032" length="0.018" />
                 </geometry>
             </collision>
-            <xacro:cylinder_inertia m="0.020" r="0.032" l="0.018" o_xyz="0 0 0" o_rpy="0 0 0" />
+            <xacro:cylinder_inertia m="0.020" r="0.032" l="0.018" o_xyz="0 0 0.015" o_rpy="0 0 0" />
         </link>
         <xacro:if value="${use_gazebo}">
             <gazebo reference="laser_frame">

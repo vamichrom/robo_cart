@@ -84,7 +84,10 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/camera.launch.py'])
         ),
+        #IncludeLaunchDescription(
+        #    PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/joystick.launch.py'])
+        #), # I don't need joystick on robot machine, it will be run on dev machine (on ThinkPad)
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/joystick.launch.py'])
+            PythonLaunchDescriptionSource([ThisLaunchFileDir(), '/obj_tracker.launch.py'])
         ),
     ])

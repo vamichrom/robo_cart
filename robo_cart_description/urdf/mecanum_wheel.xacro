@@ -2,12 +2,13 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:macro name="load_wheel"
     params="base_width base_length wheel_mass wheel_radius wheel_width use_gazebo prefix side x_reflect y_reflect">
-    
+
     <link name="${side}_wheel_link">
       <visual>
         <origin xyz="0 0 0" rpy="${pi/2} 0 0" />
         <geometry>
-          <mesh filename="file://$(find robo_cart_description)/meshes/${side}_wheel.STL" />
+          <mesh filename="file://$(find robo_cart_description)/meshes/${side}_wheel.STL"
+            scale="0.9 0.9 0.9" />
         </geometry>
         <material name="dark_gray">
           <color rgba="0.2 0.2 0.2 1.0" />
@@ -28,16 +29,16 @@
           izz="${(wheel_mass/12.0) * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" />
       </inertial>
     </link>
-    
+
     <joint name="${prefix}_${side}_wheel_joint" type="continuous">
       <axis xyz="0 1 0" />
       <parent link="${prefix}_link" />
       <child link="${side}_wheel_link" />
       <origin
-        xyz="${(x_reflect * base_length) / 4.0} ${(y_reflect * (base_width + wheel_width)) / 2.0} 0.0"
+        xyz="${(x_reflect * base_length) / 4.0 - (x_reflect * 0.0055)} ${(y_reflect * (base_width + wheel_width)) / 2.0} 0.0"
         rpy="0 0 0" />
     </joint>
-    
+
     <xacro:if value="${use_gazebo}">
       <gazebo reference="${prefix}_${side}_wheel_link">
         <surface>
@@ -58,6 +59,6 @@
         </visual>
       </gazebo>
     </xacro:if>
-  
+
   </xacro:macro>
 </robot>

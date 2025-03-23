@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <sdf version="1.6">
   <world name="default">
@@ -33,7 +33,7 @@
       name="gz::sim::systems::Imu">
     </plugin>
 
-     <light type="directional" name="sun">
+    <light type="directional" name="sun">
       <cast_shadows>true</cast_shadows>
       <pose>0 0 10 0 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
@@ -81,6 +81,11 @@
         </visual>
       </link>
     </model>
+    <include>
+      <uri>file:///home/ladmin/.gz/fuel/fuel.gazebosim.org/openrobotics/models/cricket ball/3</uri>
+      <name>cricket_ball</name>
+      <pose>1.4891761541366577 -0.041880298405885696 -1.9501600334592695e-10 0 0 0</pose>
+    </include>
 
   </world>
 </sdf>

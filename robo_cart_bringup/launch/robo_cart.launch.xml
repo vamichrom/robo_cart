@@ -24,4 +24,7 @@
     <include file="$(find-pkg-share robo_cart_bringup)/launch/joystick.launch.py">
         <arg name="use_sim_time" value="true" />
     </include>
+    <include file="$(find-pkg-share robo_cart_bringup)/launch/obj_tracker.launch.py">
+        <arg name="sim_mode" value="true" />
+    </include>
 </launch>
