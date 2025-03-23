@@ -2,7 +2,7 @@
 
 A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberry Pi 5
 
-![Robotic cart](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/jpeg/robo_cart.jpg)
+![Robotic cart](https://github.com/vamichrom/robo_cart/blob/33f686ad1c9d103fd74e0b665e3640d5055037f3/docs/jpeg/robo_cart.jpg)
 
 ## Usage
 
@@ -56,10 +56,10 @@ A prototype of robotic cart for school project running ROS 2 Jazzy on a Raspberr
 
         ros2 launch robo_cart_description display.launch.xml
         
-    ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/gif/rviz.gif)
+    ![Rviz Gif](https://github.com/vamichrom/robo_cart/blob/33f686ad1c9d103fd74e0b665e3640d5055037f3/docs/gif/rviz.gif)
 
     Gazebo:
 
         ros2 launch robo_cart_bringup robo_cart.launch.xml
 
-    ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/b835de9becc134cfa43fbfb507062b0676d3dd26/docs/gif/gazebo.gif)
+    ![Gazebo Gif](https://github.com/vamichrom/robo_cart/blob/33f686ad1c9d103fd74e0b665e3640d5055037f3/docs/gif/gazebo.gif)
