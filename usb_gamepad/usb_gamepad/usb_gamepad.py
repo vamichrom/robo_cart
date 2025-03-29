@@ -23,12 +23,12 @@ class GamepadControlNode(Node):
         # Set the timestamp in the header to current time
         twist_stamped.header.stamp = self.get_clock().now().to_msg()
         # Map axes to linear and angular velocity
-        twist_stamped.twist.linear.x = msg.axes[1] # left stick up/forward/positive down/backward/negative
-        twist_stamped.twist.linear.y = msg.axes[0] # left stick left/right
+        twist_stamped.twist.linear.x = 0.21 * msg.axes[1] # left stick up/forward/positive down/backward/negative
+        twist_stamped.twist.linear.y = 0.21 * msg.axes[0] # left stick left/right
         if msg.buttons[4]:
-            twist_stamped.twist.angular.z = float(msg.buttons[4]) # button 4 counter clockwise/positive value
+            twist_stamped.twist.angular.z = 1.0 * float(msg.buttons[4]) # button 4 counter clockwise/positive value
         if msg.buttons[5]:
-            twist_stamped.twist.angular.z = -float(msg.buttons[5]) # button 5 clockwise/negative value
+            twist_stamped.twist.angular.z = -1.0 * float(msg.buttons[5]) # button 5 clockwise/negative value
         self.publisher.publish(twist_stamped)
 
 def main(args=None):
