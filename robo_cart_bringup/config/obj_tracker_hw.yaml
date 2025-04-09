@@ -16,7 +16,7 @@ detect_obj:
 
 detect_obj_3d:
   ros__parameters:
-    h_fov: 0.62831853
+    h_fov: 1.25663706
     obj_radius: 0.031
     camera_frame: "camera_link_optical"
 

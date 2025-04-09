@@ -35,7 +35,7 @@
                 <sensor name="camera" type="camera">
                     <camera name="usb camera">
                         <camera_info_topic>/camera/camera_info</camera_info_topic>
-                        <horizontal_fov>0.62831853</horizontal_fov>
+                        <horizontal_fov>1.25663706</horizontal_fov>
                         <image>
                             <width>640</width>
                             <height>480</height>
